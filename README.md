@@ -9,13 +9,13 @@ TODO: add information about the configuration
 ###### SSH
 
 ```bash
-git subtree add --squash --prefix plugins/martech-loader git@github.com:chicharr/aem-martech-loader.git main
+git subtree add --squash --prefix plugins/martech-loader git@github.com:chicharr/aem-martech-loader-plugin.git main
 ```
 
 ###### HTTPS
 
 ```bash
-git subtree add --squash --prefix plugins/martech-loader git@github.com:chicharr/aem-martech-loader.git main
+git subtree add --squash --prefix plugins/martech-loader git@github.com:chicharr/aem-martech-loader-plugin.git main
 ```
 
 You can then later update it from the source again via:
@@ -23,11 +23,11 @@ You can then later update it from the source again via:
 ###### SSH
 
 ```bash
-git subtree pull --squash --prefix plugins/martech-loader git@github.com:chicharr/aem-martech-loader.git main
+git subtree pull --squash --prefix plugins/martech-loader git@github.com:chicharr/aem-martech-loader-plugin.git main
 ```
 
 ###### HTTPS
 
 ```bash
-git subtree pull --squash --prefix plugins/martech-loader git@github.com:chicharr/aem-martech-loader.git main
+git subtree pull --squash --prefix plugins/martech-loader git@github.com:chicharr/aem-martech-loader-plugin.git main
 ```
