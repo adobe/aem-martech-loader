@@ -30,14 +30,14 @@ export async function loadDelayed(document, pluginOptions, context) {
   loadMartech((delayed) => !delayed || "no" !== delayed.toLowerCase(), document, context);
 }
 
-async function loadMartech(delayedCondition, document, {sampleRUM, toCamelCase}) {
+async function loadMartech(delayedCondition, document, {sampleRUM, toCamelCase, getPlaceholderOrDefault}) {
   Object.entries(await getNeutrinoConfig(toCamelCase))
   .filter(([k, v]) => delayedCondition(v.delayed) && v.script)
   .forEach(([k, v]) => {
     console.log(`Load martech ${k}`);
     const {script} = v;
     script.startsWith('http') ? loadExternalScript(document, script, v)
-      : import(script).then((m) => m.default({sampleRUM, ...v}));
+      : import(script).then((m) => m.default({sampleRUM, getPlaceholderOrDefault,...v}));
   });
 }
 

@@ -3,13 +3,12 @@
  *
  * https://github.com/sandstreamdev/cookieconsent
  */
-import { getPlaceholderOrDefault } from '../lib-franklin.js';
 
 let config;
 
 const REVOKE_CONSENT_ELEMENT_ID = 'cc-revoke-choice';
 const configureCookieConsent = () => {
-  const { sampleRUM } = config;
+  const { sampleRUM, getPlaceholderOrDefault } = config;
   if (!window.CookieConsent) {
     // eslint-disable-next-line no-console
     console.warn('Cookie Consent not loaded');
@@ -101,11 +100,11 @@ export default function loadCookieConsent(_config) {
   config = _config;
   const link = document.createElement('link');
   link.setAttribute('rel', 'stylesheet');
-  link.setAttribute('href', '/styles/cookie-consent/cookieconsent.min.css');
+  link.setAttribute('href', './plugins/martech-loader/cookie-consent/styles/cookieconsent.min.css');
 
   const script = document.createElement('script');
   script.setAttribute('async', 'true');
-  script.src = '/scripts/cookie-consent/cookieconsent.min.js';
+  script.src = './plugins/martech-loader/cookie-consent/cookieconsent.min.js';
   script.onload = configureCookieConsent;
 
   document.head.appendChild(link);
