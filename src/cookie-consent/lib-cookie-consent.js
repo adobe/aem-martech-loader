@@ -100,11 +100,11 @@ export default function loadCookieConsent(_config) {
   config = _config;
   const link = document.createElement('link');
   link.setAttribute('rel', 'stylesheet');
-  link.setAttribute('href', './plugins/martech-loader/cookie-consent/styles/cookieconsent.min.css');
+  link.setAttribute('href', './plugins/martech-loader/src/cookie-consent/styles/cookieconsent.min.css');
 
   const script = document.createElement('script');
   script.setAttribute('async', 'true');
-  script.src = './plugins/martech-loader/cookie-consent/cookieconsent.min.js';
+  script.src = './plugins/martech-loader/src/cookie-consent/cookieconsent.min.js';
   script.onload = configureCookieConsent;
 
   document.head.appendChild(link);
