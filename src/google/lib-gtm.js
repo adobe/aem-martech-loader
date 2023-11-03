@@ -1,5 +1,15 @@
-export default function loadGTMScript({ sampleRUM, gtmId }) {
-
+export default function loadGTMScript(config) {
+  const { gtmId, webworker, sampleRUM } = config;
+  // Listen to changes in consent
+  sampleRUM.always.on('consent', ({ source, target }) => {
+    if (source === 'ANALYTICS' && target) {
+      if (window.gtag) {
+        window.gtag('consent', 'update', {
+          analytics_storage: target === 'ALLOW' ? 'granted' : 'denied',
+        });
+      }
+    }
+  });
   const scriptTag = document.createElement('script');
   scriptTag.innerHTML = `
   // googleTagManager
@@ -22,5 +32,8 @@ export default function loadGTMScript({ sampleRUM, gtmId }) {
       'cookie_flags': 'SameSite=None;Secure'
   });
   `;
+  if (webworker && webworker.toLowerCase() === 'yes') {
+    scriptTag.type = 'text/partytown';
+  }
   document.head.prepend(scriptTag);
 }
