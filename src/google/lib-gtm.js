@@ -25,7 +25,7 @@ export default function loadGTMScript(config) {
       j.src =
           'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
       f.parentNode.insertBefore(j, f);
-  })(window, document, 'script', 'dataLayer', '${gtmId}');`
+  })(window, document, 'script', 'dataLayer', '${gtmId}');`;
 
   const scriptBodyTag = document.createElement('script');
   scriptBodyTag.innerHTML = `window.dataLayer = window.dataLayer || [];
