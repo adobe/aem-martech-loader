@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/chicharr/aem-martech-loader-plugin#readme",
   "devDependencies": {
-    "@babel/core": "7.24.3",
+    "@babel/core": "7.24.4",
     "@babel/eslint-parser": "7.24.1",
     "@esm-bundle/chai": "4.3.4-fix.0",
     "@web/test-runner": "0.18.1",
