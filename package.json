@@ -20,11 +20,11 @@
   "homepage": "https://github.com/chicharr/aem-martech-loader-plugin#readme",
   "devDependencies": {
     "@babel/core": "7.24.9",
-    "@babel/eslint-parser": "7.24.8",
+    "@babel/eslint-parser": "7.25.0",
     "@esm-bundle/chai": "4.3.4-fix.0",
     "@web/test-runner": "0.18.2",
     "@web/test-runner-commands": "0.9.0",
-    "chai": "4.4.1",
+    "chai": "4.5.0",
     "eslint": "8.57.0",
     "eslint-config-airbnb-base": "15.0.0",
     "eslint-plugin-import": "2.29.1",
