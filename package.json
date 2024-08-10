@@ -22,7 +22,7 @@
     "@babel/core": "7.25.2",
     "@babel/eslint-parser": "7.25.1",
     "@esm-bundle/chai": "4.3.4-fix.0",
-    "@web/test-runner": "0.18.2",
+    "@web/test-runner": "0.18.3",
     "@web/test-runner-commands": "0.9.0",
     "chai": "4.5.0",
     "eslint": "8.57.0",
