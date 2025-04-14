@@ -50,12 +50,28 @@ function loadExternalScript(document, script, config) {
   document.head.appendChild(scriptElement);
   return true;
 }
-async function loadMartech(delayedCondition, document, context) {
+
+function initPartytown(forwardedEvents, pluginOptions) {
+  const pluginUrl = pluginOptions.url || '/plugins/src/martech-loader/src/index.js';
+  window.partytown = {
+    lib: pluginUrl.replace('/index.js', '/partytown/'),
+    forward: ['dataLayer.push', ...forwardedEvents],
+  };
+  import('./partytown/partytown.js');
+}
+
+async function loadMartech(delayedCondition, document, context, pluginOptions) {
   const { sampleRUM, toCamelCase, getPlaceholderOrDefault } = context;
+  const webworkerEvents = [];
+  let loadWebworker = false;
   Object.entries(await getNeutrinoConfig(toCamelCase))
     .filter(([, v]) => delayedCondition(v.delayed) && v.script)
     .forEach(([k, v]) => {
       console.log(`Load martech ${k}`);
+      loadWebworker ||= v.webworker;
+      if (v.webworker && v.webworkerForwardEvents) {
+        webworkerEvents.push(v.webworkerForwardEvents.split(',').map((e) => e.trim()));
+      }
       const { script } = v;
       if (script.startsWith('http')) {
         loadExternalScript(document, script, v);
@@ -63,6 +79,9 @@ async function loadMartech(delayedCondition, document, context) {
         import(script).then((m) => m.default({ sampleRUM, getPlaceholderOrDefault, ...v }));
       }
     });
+  if (loadWebworker) {
+    initPartytown(webworkerEvents, pluginOptions);
+  }
 }
 
 /**
@@ -80,7 +99,7 @@ export async function loadEager(document, pluginOptions, context) {
  * @param {*} context should contain at lease sampleRUM object and toCamelCase function
  */
 export async function loadLazy(document, pluginOptions, context) {
-  loadMartech((delayed) => delayed && delayed.toLowerCase() === 'no', document, context);
+  loadMartech((delayed) => delayed && delayed.toLowerCase() === 'no', document, context, pluginOptions);
 }
 
 /**
@@ -88,5 +107,5 @@ export async function loadLazy(document, pluginOptions, context) {
  * @param {*} context should contain at lease sampleRUM object and toCamelCase function
  */
 export async function loadDelayed(document, pluginOptions, context) {
-  loadMartech((delayed) => !delayed || delayed.toLowerCase() !== 'no', document, context);
+  loadMartech((delayed) => !delayed || delayed.toLowerCase() !== 'no', document, context, pluginOptions);
 }
