@@ -1,5 +1,15 @@
-export default function loadGTMScript({ sampleRUM, gtmId }) {
-
+export default function loadGTMScript(config) {
+  const { gtmId, webworker, sampleRUM } = config;
+  // Listen to changes in consent
+  sampleRUM.always.on('consent', ({ source, target }) => {
+    if (source === 'ANALYTICS' && target) {
+      if (window.gtag) {
+        window.gtag('consent', 'update', {
+          analytics_storage: target === 'ALLOW' ? 'granted' : 'denied',
+        });
+      }
+    }
+  });
   const scriptTag = document.createElement('script');
   scriptTag.innerHTML = `
   // googleTagManager
@@ -15,12 +25,18 @@ export default function loadGTMScript({ sampleRUM, gtmId }) {
       j.src =
           'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
       f.parentNode.insertBefore(j, f);
-  })(window, document, 'script', 'dataLayer', '${gtmId}');
-  window.dataLayer = window.dataLayer || [];
+  })(window, document, 'script', 'dataLayer', '${gtmId}');`;
+
+  const scriptBodyTag = document.createElement('script');
+  scriptBodyTag.innerHTML = `window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
-  gtag('set', {
-      'cookie_flags': 'SameSite=None;Secure'
-  });
-  `;
+  window.gtag = gtag;`;
+
+  if (webworker && webworker.toLowerCase() === 'yes') {
+    scriptTag.type = 'text/partytown';
+    scriptBodyTag.type = 'text/partytown';
+  }
+
   document.head.prepend(scriptTag);
+  document.body.prepend(scriptBodyTag);
 }
